@@ -4232,14 +4232,12 @@
     let endItem = 3;
     if (blogItems) loadBlogItems();
     async function loadBlogItems() {
-        const response = await fetch("../files/blog.json", {
+        await fetch("https://raw.githubusercontent.com/Serg1k1/json/main/blog.json", {
             method: "GET"
-        });
-        if (response.ok) {
-            const responseResult = await response.json();
-            data = responseResult;
+        }).then((response => response.json())).then((content => {
+            data = content;
             initBlog(data, startItem, endItem);
-        } else alert("Error!");
+        })).catch((err => alert("Failed to get the blog data")));
     }
     function initBlog(data, startItem, endItem) {
         const dataPart = data.items.slice(startItem, endItem);
